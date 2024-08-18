@@ -24,12 +24,11 @@ int main(int argc, char *argv[])
         cells[i] = Cell();
     State* state = new State(cells, count_cells, count_rows, count_columns);
 
-    Field* field = new Field(state);
     state->get_cell(3, 4)->is_alive = true;
     state->get_cell(3, 5)->is_alive = true;
     state->get_cell(3, 6)->is_alive = true;
     state->get_cell(2, 5)->is_alive = true;
-    field->update_state();
+    state->update_state();
 
     for (int i = 0; i < count_cells; i++)
     {

@@ -2,35 +2,21 @@
 #include "../../headers/controller/cell.h"
 #include "../../headers/controller/game.h"
 #include <QDebug>
-#include <cmath>
 #include <QString>
 #include <map>
 
-Field::Field(State* new_state)
+void State::update_state()
 {
-    state = new_state;
-}
+    Cell* last_cells = new Cell[amount_of_cells];
+    std::copy(cells_array, cells_array + amount_of_cells, last_cells);
 
-Field::~Field()
-{
-    for (int i = 0; i < state->amount_of_rows; i++)
-        for (int j = 0; j < state->amount_of_columns; j++)
-            delete state->get_cell(i, j);
-}
+    State last_state = State(last_cells, amount_of_cells, amount_of_rows, amount_of_columns);
 
-void Field::update_state()
-{
-    Cell* last_cells = new Cell[state->amount_of_cells];
-    for (int i = 0; i < state->amount_of_cells; i++)
-        last_cells[i] = state->cells_array[i];
-
-    State last_state = State(last_cells, state->amount_of_cells, state->amount_of_rows, state->amount_of_columns);
-
-    for (int i = 0; i < state->amount_of_columns; i++)
-        for (int j = 0; j < state->amount_of_rows; j++)
+    for (int i = 0; i < amount_of_columns; i++)
+        for (int j = 0; j < amount_of_rows; j++)
         {
             Cell* next_cell_last_state = last_state.get_cell(i, j);
-            Cell* next_cell_next_state = state->get_cell(i, j);
+            Cell* next_cell_next_state = get_cell(i, j);
             if (next_cell_last_state->is_alive && rules::need_to_change_state(last_state, *next_cell_last_state))
                 next_cell_next_state->is_alive = false;
             else if (!next_cell_last_state->is_alive && rules::need_to_change_state(last_state, *next_cell_last_state))

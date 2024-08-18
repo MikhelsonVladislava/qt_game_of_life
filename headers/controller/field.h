@@ -16,22 +16,10 @@ public:
     State(Cell* cells, int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns);
 
     Cell* get_cell(int x, int y);
+    void update_state();
     class InvalidState {};
     class CoordsDublicate {};
     class NullCoordinates {};
-};
-
-class Field
-{
-private:
-    State* state;
-
-public:
-    Field(State* new_state);
-    ~Field();
-
-    //void set_state(std::map<CellCoordinates*, Cell&> new_state);
-    void update_state();
 };
 
 #endif
