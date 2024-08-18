@@ -7,7 +7,7 @@
 class State
 {
 private:
-    std::map<std::string, Cell*> cells_map;
+    std::map<std::pair<int, int>, Cell*> cells_map;
 public:
     Cell* cells_array;
     int amount_of_cells;

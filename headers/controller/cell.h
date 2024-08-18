@@ -9,7 +9,7 @@ public:
     int y;
 
     CellCoordinates(int new_x, int new_y);
-    std::string get_string_coords();
+    std::pair<int, int> get_coords();
 };
 
 class Cell

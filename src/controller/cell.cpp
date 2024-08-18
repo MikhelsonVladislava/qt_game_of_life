@@ -7,9 +7,9 @@ CellCoordinates::CellCoordinates(int new_x, int new_y)
     y = new_y;
 }
 
-std::string CellCoordinates::get_string_coords()
+std::pair<int, int> CellCoordinates::get_coords()
 {
-    return std::to_string(x) + "," + std::to_string(y);
+    return std::pair(x, y);
 }
 
 Cell::Cell()

@@ -28,7 +28,7 @@ void State::update_state()
 
 Cell* State::get_cell(int x, int y)
 {
-    std::string coords = std::to_string(x) + "," + std::to_string(y);
+    std::pair<int, int> coords(x, y);
     Cell* curr_cell = cells_map[coords];
     return curr_cell;
 }
@@ -56,7 +56,7 @@ State::State(Cell *cells, int curr_amount_of_cells, int curr_amount_of_rows, int
         Cell* curr_cell = &cells[j];
         //if (curr_cell->get_coordinates() == nullptr)
         //    throw NullCoordinates();
-        std::string curr_coord = curr_cell->get_coordinates()->get_string_coords();
+        std::pair<int, int> curr_coord = curr_cell->get_coordinates()->get_coords();
         //if (cells_map.find(curr_coord) != cells_map.end())
         //    throw CoordsDublicate();
         cells_map[curr_coord] = curr_cell;
