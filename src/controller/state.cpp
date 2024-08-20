@@ -1,5 +1,6 @@
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
+#include <QDebug>
 #include "../../headers/controller/game.h"
 #include <map>
 
@@ -42,12 +43,14 @@ State::State(Cell *cells, int curr_amount_of_cells, int curr_amount_of_rows, int
     amount_of_columns = curr_amount_of_columns;
 
     if (cells[0].get_coordinates()->x == -1)
+    {
         for (int i = 0; i < amount_of_columns; i++)
             for (int j = 0; j < amount_of_rows; j++)
             {
                 cells[count_cells].set_coordinates(i, j);
                 count_cells++;
             }
+    }
 
     for (int j = 0; j < amount_of_cells; j++)
     {

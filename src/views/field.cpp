@@ -10,35 +10,28 @@
 #include "../../headers/views/cell_view.h"
 
 Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height)
+    : QGraphicsRectItem(x, y, width, height)
 {
     Cell* cells = new Cell[curr_amount_of_cells]; // leak
+    qreal cell_width = width / curr_amount_of_columns;
+    int cell_count = 0;
     cell_views = new CellView[curr_amount_of_cells];
     for (int i = 0; i < curr_amount_of_cells; i++)
+    {
         cells[i] = Cell();
+        cell_views[cell_count] = *new CellView(&cells[i], 0, 0, cell_width, cell_width, this);
+        cell_count++;
+    }
 
-    int cell_count = 0;
-
-    qreal cell_width = width / curr_amount_of_columns;
     state = new State(cells, curr_amount_of_cells, curr_amount_of_rows, curr_amount_of_columns);
-    for (int i = 0; i < curr_amount_of_columns; i++)
-        for (int j = 0; j < curr_amount_of_rows; j++)
-        {
-            CellView* curr_cell = new CellView(state->get_cell(i,j), 0, 0, cell_width, cell_width, this);
-            curr_cell->field = this;
-            // rebuild
-            if ((curr_cell->cell->get_coordinates()->x == 100 && (curr_cell->cell->get_coordinates()->y == 100
-                                                                 || curr_cell->cell->get_coordinates()->y == 101
-                                                                 || curr_cell->cell->get_coordinates()->y == 99)) ||
-                    (curr_cell->cell->get_coordinates()->x == 99 && (curr_cell->cell->get_coordinates()->y == 100)))
-                curr_cell->cell->is_alive = true;
-            cell_views[cell_count] = *curr_cell; // хрень какая-то
-            cell_count++;
-            // rebuild
-        }
+    state->get_cell(100, 100)->is_alive = true;
+    state->get_cell(100, 102)->is_alive = true;
+    state->get_cell(100, 101)->is_alive = true;
+    state->get_cell(101, 101)->is_alive = true;
 
     QTimer* timer = new QTimer;
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(update()));
-    timer->start(500);
+    timer->start(200);
 }
 
 void Field::update()
@@ -49,8 +42,8 @@ void Field::update()
 
 void CellView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
-    qreal curr_x = field->x() + cell->get_coordinates()->x * width;
-    qreal curr_y = field->y() + cell->get_coordinates()->y * width;
+    qreal curr_x = parentItem()->x() + cell->get_coordinates()->x * width;
+    qreal curr_y = parentItem()->y() + cell->get_coordinates()->y * width;
     QColor color;
     if (cell->is_alive) color = Qt::white;
     else color = Qt::black;

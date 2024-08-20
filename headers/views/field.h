@@ -40,6 +40,7 @@ public:
     CellView* cell_views;
     State* state;
     Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height);
+    //void update_view();
 
 public slots:
     void update();
