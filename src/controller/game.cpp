@@ -1,8 +1,7 @@
-#include "../../headers/controller/field.h"
+#include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
 #include "../../headers/controller/game.h"
 
-#include <QDebug>
 
 bool rules::need_to_change_state(State& state, Cell& cell)
 {

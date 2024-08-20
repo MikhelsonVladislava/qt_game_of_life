@@ -1,4 +1,4 @@
-#include "../../headers/controller/field.h"
+#include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
 
 CellCoordinates::CellCoordinates(int new_x, int new_y)

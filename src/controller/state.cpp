@@ -1,8 +1,6 @@
-#include "../../headers/controller/field.h"
+#include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
 #include "../../headers/controller/game.h"
-#include <QDebug>
-#include <QString>
 #include <map>
 
 void State::update_state()

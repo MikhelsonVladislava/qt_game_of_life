@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "cell.h"
-#include "field.h"
+#include "state.h"
 
 namespace rules {
 

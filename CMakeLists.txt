@@ -16,10 +16,15 @@ set(PROJECT_SOURCES
         main.cpp
         headers/controller/cell.h
         headers/controller/game.h
-        headers/controller/field.h
+        headers/controller/state.h
         src/controller/cell.cpp
         src/controller/game.cpp
-        src/controller/field.cpp
+        src/controller/state.cpp
+        src/views/field.cpp
+        src/views/cell_view.cpp
+        headers/views/field.h
+        headers/views/cell_view.h
+        headers/views/params.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
