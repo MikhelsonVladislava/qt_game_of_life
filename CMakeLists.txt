@@ -21,10 +21,7 @@ set(PROJECT_SOURCES
         src/controller/game.cpp
         src/controller/state.cpp
         src/views/field.cpp
-        src/views/cell_view.cpp
         headers/views/field.h
-        headers/views/cell_view.h
-        headers/views/params.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

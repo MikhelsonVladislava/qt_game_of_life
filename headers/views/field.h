@@ -7,7 +7,6 @@
 #include <QPainter>
 #include "../controller/cell.h"
 #include "../controller/state.h"
-#include "cell_view.h"
 
 class Field;
 
@@ -30,6 +29,11 @@ public:
     CellView& operator=(CellView &other) {
         this->~CellView();
       return *new(this) CellView(other.cell, other.x(), other.y(), other.width, other.height);
+    }
+
+    CellView& operator=(CellView *other) {
+        this->~CellView();
+      return *new(this) CellView(other->cell, other->x(), other->y(), other->width, other->height);
     }
 };
 

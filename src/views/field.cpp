@@ -2,48 +2,61 @@
 #include <QObject>
 #include <QTimer>
 #include <QPainter>
+#include <stdlib.h>>
+#include <QDateTime>
 #include <QColor>
 #include <QGraphicsScene>
+#include <QDebug>
 #include "../../headers/views/field.h"
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
-#include "../../headers/views/cell_view.h"
 
 Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height)
     : QGraphicsRectItem(x, y, width, height)
 {
-    Cell* cells = new Cell[curr_amount_of_cells]; // leak
+    Cell** cells = new Cell*[curr_amount_of_columns];
     qreal cell_width = width / curr_amount_of_columns;
     int cell_count = 0;
     cell_views = new CellView[curr_amount_of_cells];
-    for (int i = 0; i < curr_amount_of_cells; i++)
+    for (int i = 0; i < curr_amount_of_columns; i++)
     {
-        cells[i] = Cell();
-        cell_views[cell_count] = *new CellView(&cells[i], 0, 0, cell_width, cell_width, this);
-        cell_count++;
+        cells[i] = new Cell[curr_amount_of_rows];
+        for (int j = 0; j < curr_amount_of_rows; j++)
+        {
+            cells[i][j] = Cell(i, j);
+            cell_views[cell_count] = new CellView(&cells[i][j], 0, 0, cell_width, cell_width, this); // leak
+            cell_count++;
+        }
     }
 
     state = new State(cells, curr_amount_of_cells, curr_amount_of_rows, curr_amount_of_columns);
-    state->get_cell(100, 100)->is_alive = true;
-    state->get_cell(100, 102)->is_alive = true;
-    state->get_cell(100, 101)->is_alive = true;
-    state->get_cell(101, 101)->is_alive = true;
+    //
+    for (int i = 0; i < curr_amount_of_columns; i++)
+        for (int j = 0; j < curr_amount_of_rows; j++)
+        {
+            int is_alive = std::rand() % 2;
+            if (is_alive)
+                cells[i][j].is_alive = true;
+        }
+    //
+
 
     QTimer* timer = new QTimer;
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(update()));
-    timer->start(200);
+    timer->start(100);
 }
 
 void Field::update()
 {
+//    QDateTime start = QDateTime::currentDateTime();
     state->update_state();
     scene()->update();
 }
 
 void CellView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
-    qreal curr_x = parentItem()->x() + cell->get_coordinates()->x * width;
-    qreal curr_y = parentItem()->y() + cell->get_coordinates()->y * width;
+    qreal curr_x = parentItem()->x() + cell->x * width;
+    qreal curr_y = parentItem()->y() + cell->y * width;
     QColor color;
     if (cell->is_alive) color = Qt::white;
     else color = Qt::black;

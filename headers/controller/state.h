@@ -6,16 +6,15 @@
 
 class State
 {
-private:
-    std::map<std::pair<int, int>, Cell*> cells_map;
 public:
-    Cell* cells_array;
+    Cell** cells_array;
     int amount_of_cells;
     int amount_of_rows;
     int amount_of_columns;
-    State(Cell* cells=nullptr, int curr_amount_of_cells=0, int curr_amount_of_rows=0, int curr_amount_of_columns=0);
+    State(Cell **cells=nullptr, int curr_amount_of_cells=0, int curr_amount_of_rows=0, int curr_amount_of_columns=0);
 
-    Cell* get_cell(int x, int y);
+    State* copy(State* copied_state);
+    ~State();
     void update_state();
     class InvalidState {};
     class CoordsDublicate {};
