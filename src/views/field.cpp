@@ -5,6 +5,7 @@
 #include <stdlib.h>>
 #include <QDateTime>
 #include <QColor>
+#include <ctime>
 #include <QGraphicsScene>
 #include <QDebug>
 #include "../../headers/views/field.h"
@@ -31,6 +32,7 @@ Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_
 
     state = new State(cells, curr_amount_of_cells, curr_amount_of_rows, curr_amount_of_columns);
     //
+    std::srand(std::time(0));
     for (int i = 0; i < curr_amount_of_columns; i++)
         for (int j = 0; j < curr_amount_of_rows; j++)
         {
