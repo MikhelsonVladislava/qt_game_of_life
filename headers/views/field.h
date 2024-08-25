@@ -41,10 +41,15 @@ class Field: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
+    qreal x;
+    qreal y;
+    qreal height;
+    qreal width;
     CellView* cell_views;
     State* state;
     Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height);
     //void update_view();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *);
 
 public slots:
     void update();

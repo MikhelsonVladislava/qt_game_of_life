@@ -12,9 +12,13 @@
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
 
-Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height)
-    : QGraphicsRectItem(x, y, width, height)
+Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns, qreal new_x, qreal new_y, qreal new_width, qreal new_height)
+    : QGraphicsRectItem(new_x, new_y, new_width, new_height)
 {
+    x = new_x;
+    y = new_y;
+    width = new_width;
+    height = new_height;
     Cell** cells = new Cell*[curr_amount_of_columns];
     qreal cell_width = width / curr_amount_of_columns;
     int cell_count = 0;
@@ -48,6 +52,13 @@ Field::Field(int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_
     timer->start(100);
 }
 
+void Field::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
+{
+    painter->setPen(Qt::black);
+    painter->setBrush(Qt::black);
+    painter->drawRect(x, y, width, height);
+}
+
 void Field::update()
 {
 //    QDateTime start = QDateTime::currentDateTime();
@@ -57,12 +68,12 @@ void Field::update()
 
 void CellView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
-    qreal curr_x = parentItem()->x() + cell->x * width;
-    qreal curr_y = parentItem()->y() + cell->y * width;
-    QColor color;
-    if (cell->is_alive) color = Qt::white;
-    else color = Qt::black;
-    painter->setPen(color);
-    painter->setBrush(color);
-    painter->drawRect(curr_x, curr_y, width, height);
+    if (cell->is_alive)
+    {
+        qreal curr_x = parentItem()->x() + cell->x * width;
+        qreal curr_y = parentItem()->y() + cell->y * width;
+        painter->setPen(Qt::white);
+        painter->setBrush(Qt::white);
+        painter->drawRect(curr_x, curr_y, width, height);
+    }
 }
