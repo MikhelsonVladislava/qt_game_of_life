@@ -16,12 +16,24 @@ set(PROJECT_SOURCES
         main.cpp
         headers/controller/cell.h
         headers/controller/game.h
+        startstatewindowsettings.ui
         headers/controller/state.h
         src/controller/cell.cpp
         src/controller/game.cpp
         src/controller/state.cpp
         src/views/field.cpp
         headers/views/field.h
+        src/views/mainwindow.cpp
+        ui_mainwindow.h
+        headers/views/mainwindow.h
+        headers/views/createstatefield.h
+        src/views/createstatefield.cpp
+        createstatefield.ui
+        ui_createstatefield.h
+        mainwindow.ui
+        headers/views/startstatewindowsettings.h
+        ui_startstatewindowsettings.h
+        src/views/startstatewindowsettings.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

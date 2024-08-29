@@ -8,9 +8,6 @@
 bool rules::need_to_change_state(State& state, Cell& cell)
 {
     int count_of_alive = 0;
-//    for (int i = (state.amount_of_columns + cell.x - 1) % state.amount_of_columns; i <= (state.amount_of_columns + cell.x + 1) % state.amount_of_columns; i++)
-//        for (int j = (state.amount_of_rows + cell.y - 1) % state.amount_of_rows; j <= (state.amount_of_rows + cell.y + 1) % state.amount_of_rows; j++)
-//            if (!(j == cell.y && i == cell.x) && state.cells_array[i][j].is_alive) count_of_alive++;
 
     for (int i = cell.x - 1; i <= cell.x + 1; i++)
         for (int j = cell.y - 1; j <= cell.y + 1; j++)

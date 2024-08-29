@@ -12,10 +12,8 @@ void State::update_state()
         {
             Cell next_cell_last_state = last_state->cells_array[i][j];
             Cell* next_cell_next_state = &cells_array[i][j];
-            if (next_cell_last_state.is_alive && rules::need_to_change_state(*last_state, next_cell_last_state))
-                next_cell_next_state->is_alive = false;
-            else if (!next_cell_last_state.is_alive && rules::need_to_change_state(*last_state, next_cell_last_state))
-                next_cell_next_state->is_alive = true;
+            if (rules::need_to_change_state(*last_state, next_cell_last_state))
+                next_cell_next_state->is_alive = !next_cell_last_state.is_alive;
         }
     delete last_state;
 }
