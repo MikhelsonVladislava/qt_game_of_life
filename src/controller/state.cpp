@@ -18,10 +18,44 @@ void State::update_state()
     delete last_state;
 }
 
-State::State(Cell **cells, int curr_amount_of_cells, int curr_amount_of_rows, int curr_amount_of_columns)
+void State::supp_state(int needed_count_of_rows, int needed_count_of_columns)
+{
+    Cell** last_cells = new Cell*[amount_of_columns];
+    for (int i = 0; i < amount_of_columns; i++)
+    {
+        last_cells[i] = new Cell[amount_of_rows];
+        std::copy(cells_array[i], cells_array[i] + amount_of_rows, last_cells[i]);
+    }
+
+    cells_array = new Cell*[needed_count_of_columns];
+    int rows_diff = needed_count_of_rows - amount_of_rows;
+    int columns_diff = needed_count_of_columns - amount_of_columns;
+    for (int i = 0; i < needed_count_of_columns; i++)
+    {
+        cells_array[i] = new Cell[needed_count_of_rows];
+        for (int j = 0; j < needed_count_of_rows; j++)
+        {
+            cells_array[i][j] = Cell(i, j);
+            if (i < columns_diff / 2 + amount_of_columns && i >= columns_diff / 2 && j < rows_diff /2 + amount_of_rows && j >= rows_diff /2)
+            {
+                cells_array[i][j].is_alive = last_cells[i - columns_diff / 2][j - rows_diff / 2].is_alive;
+            }
+        }
+    }
+
+    for (int i = 0; i < amount_of_columns; i++)
+    {
+        delete[] last_cells[i];
+    }
+    delete[] last_cells;
+
+    amount_of_rows = needed_count_of_rows;
+    amount_of_columns = needed_count_of_columns;
+}
+
+State::State(Cell **cells, int curr_amount_of_rows, int curr_amount_of_columns)
 {
     cells_array = cells;
-    amount_of_cells = curr_amount_of_cells;
     amount_of_rows = curr_amount_of_rows;
     amount_of_columns = curr_amount_of_columns;
 }
@@ -34,7 +68,7 @@ State* State::copy(State *copied_state)
         last_cells[i] = new Cell[amount_of_rows];
         std::copy(cells_array[i], cells_array[i] + amount_of_rows, last_cells[i]);
     }
-    State* last_state = new State(last_cells, copied_state->amount_of_cells, copied_state->amount_of_rows, copied_state->amount_of_columns);
+    State* last_state = new State(last_cells, copied_state->amount_of_rows, copied_state->amount_of_columns);
     return last_state;
 }
 

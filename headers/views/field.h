@@ -11,17 +11,6 @@
 
 
 class Field;
-//class CustomScene : public QGraphicsScene
-//{
-//protected:
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event)
-//    {
-
-//        QGraphicsScene::mousePressEvent(event);
-//    }
-//public:
-//    using QGraphicsScene::QGraphicsScene;
-//};
 
 class CustomView : public QGraphicsView
 {
@@ -40,7 +29,6 @@ class CellView: public QGraphicsRectItem
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
-        qDebug() << "Custom view clicked.";
         cell->is_alive = !cell->is_alive;
         scene()->update();
     }
@@ -49,13 +37,11 @@ public:
     Cell* cell;
     QColor cell_color = Qt::white;
     qreal width;
-    qreal height;
     Field* field;
-    CellView(Cell* new_cell = nullptr, qreal x = 0, qreal y = 0, qreal new_width = 0, qreal new_height = 0, QGraphicsRectItem *parent = nullptr)
+    CellView(Cell* new_cell = nullptr, qreal x = 0, qreal y = 0, qreal width = 0, QGraphicsRectItem *parent = nullptr)
         : QGraphicsRectItem(parent) {
-        cell = new_cell;
-        width = new_height;
-        height = new_height;
+        this->cell = new_cell;
+        this->width = width ;
     };
 
 
@@ -66,21 +52,28 @@ public:
 class Field: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
-public:
-    qreal x;
-    qreal y;
-    qreal height;
+private:
     qreal width;
+    qreal height;
+    bool is_static;
+    qreal cell_width;
+    int fps = 100;
+    CellView** cell_views;
+
+    void fix_field_size();
+    void set_cell_views(State* state);
+
+public:
     qreal cells_field_begin_y = -1;
     qreal cells_field_begin_x = -1;
-    bool is_static;
     bool is_start_state;
-    int count_of_rows = 200;
-    int fps = 100;
-    int count_of_columns = 200;
-    CellView** cell_views;
+    int count_of_rows;
+    int count_of_columns;
     State* state;
-    Field(int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height, bool is_start_state, int new_fps, bool is_static);
+
+    Field(int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height, bool is_start_state, int fps, QGraphicsRectItem *parent = nullptr);
+    Field(qreal x, qreal y, qreal width, qreal height, bool is_start_state, int fps, State* state = nullptr, QGraphicsRectItem *parent = nullptr);
+    void set_random_cells_alive(double alive_precent);
     int get_count_of_cells()
     {
         return count_of_rows * count_of_columns;

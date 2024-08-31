@@ -1,7 +1,9 @@
 #ifndef STARTSTATEWINDOWSETTINGS_H
 #define STARTSTATEWINDOWSETTINGS_H
+#include "createstatefield.h"
 #include "../../headers/controller/state.h"
 
+#include <QPointer>
 #include <QWidget>
 #include <QString>
 
@@ -24,18 +26,21 @@ public:
     ~StartStateWindowSettings();
     int count_of_rows;
     int count_of_columns;
-    State* get_state();
 
 private slots:
     void on_create_state_but_clicked();
+    void close_creator_state(State* state);
 
 signals:
     void rows_warning(const QString &);
     void columns_warning(const QString &);
+    void create_state(State* state);
 
 private:
+    QPointer<CreateStateField> sub_window = nullptr;
     void create_interface();
     Ui::StartStateWindowSettings *ui;
+    State* get_full_state(State* state);
     const QString COLUMNS_WARNING = "Количество столбцов состояния не должно превосходить количества столбцов всего поля!";
     const QString ROWS_WARNING = "Количество строк состояния не должно превосходить количества строк всего поля!";
     State* state;

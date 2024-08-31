@@ -4,6 +4,7 @@
 #include "field.h"
 #include <QWidget>
 
+
 namespace Ui {
 class CreateStateField;
 }
@@ -25,6 +26,9 @@ public:
         create_interface();
     };
     ~CreateStateField();
+
+signals:
+    void close_creator_state(State* state);
 
 private slots:
     void on_create_but_clicked();

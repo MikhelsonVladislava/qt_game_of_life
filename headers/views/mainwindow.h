@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <QPointer>
+#include "startstatewindowsettings.h"
 #include "../../headers/controller/state.h"
 #include <QMainWindow>
 
@@ -12,6 +14,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    bool state_is_create = false;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     State* state = nullptr;
@@ -20,6 +23,9 @@ public:
     void exit();
     void set_state();
 
+signals:
+    void status_string(const QString &);
+
 private slots:
     void on_start_but_clicked();
 
@@ -27,7 +33,12 @@ private slots:
 
     void on_state_but_clicked();
 
+    void create_state(State* state);
+
 private:
+    QPointer<StartStateWindowSettings> sub_window = nullptr;
+    const QString created = "задано";
+    const QString not_created = "не задано";
     void create_interface();
     Ui::MainWindow *ui;
 };

@@ -30,11 +30,18 @@ void MainWindow::start_game()
 
     view->setFixedSize(1000,700);
     scene->setSceneRect(0,0,1000,700);
-
+    int alive_precent = random_cells_percent_box->currentText().toInt();
     int count_rows = rows_box->currentText().toInt();
     int count_columns = columns_box->currentText().toInt();
     int fps = 1000 / fps_box->currentText().toInt();
-    Field* field = new Field(count_rows, count_columns, 0, 0, view->width(), view->height(), false, fps, false);
+    Field* field;
+    if (state_is_create)
+        field = new Field(0, 0, view->width(), view->height(), false, fps, state);
+    else
+    {
+        field = new Field(count_rows, count_columns, 0, 0, view->width(), view->height(), false, fps);
+        field->set_random_cells_alive(alive_precent);
+    }
     scene->addItem(field);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -51,12 +58,26 @@ void MainWindow::on_start_but_clicked()
 
 void MainWindow::on_state_but_clicked()
 {
-    QComboBox* rows_box = findChild<QComboBox*>("rows_box");
-    QComboBox* columns_box = findChild<QComboBox*>("columns_box");
-    int count_rows = rows_box->currentText().toInt();
-    int count_columns = columns_box->currentText().toInt();
-    StartStateWindowSettings* start_state_window = new StartStateWindowSettings(count_rows, count_columns);
-    start_state_window->show();
+    if (sub_window == nullptr)
+    {
+        QComboBox* rows_box = findChild<QComboBox*>("rows_box");
+        QComboBox* columns_box = findChild<QComboBox*>("columns_box");
+        int count_rows = rows_box->currentText().toInt();
+        int count_columns = columns_box->currentText().toInt();
+        StartStateWindowSettings* start_state_window = new StartStateWindowSettings(count_rows, count_columns);
+        QObject::connect(start_state_window, &StartStateWindowSettings::create_state, this, &MainWindow::create_state);
+        QLabel* status = findChild<QLabel*>("state_status");
+        QObject::connect(this, &MainWindow::status_string, status, &QLabel::setText);
+        sub_window = start_state_window;
+        start_state_window->show();
+    }
+}
+
+void MainWindow::create_state(State* state)
+{
+    state_is_create = true;
+    emit status_string(created);
+    this->state = state;
 }
 
 

@@ -1,4 +1,4 @@
-#include <QDebug>
+ #include <QDebug>
 
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"

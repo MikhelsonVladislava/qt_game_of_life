@@ -7,6 +7,7 @@ CreateStateField::CreateStateField(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CreateStateField)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
 }
 
@@ -24,7 +25,7 @@ void CreateStateField::create_interface()
     scene->setSceneRect(0,0,this->width(), this->height() * 0.9);
     view->setFixedSize(this->width(), this->height() * 0.9);
 
-    field = new Field(count_of_rows, count_of_columns, 0, 0, view->width(), view->height(), true, 0, true);
+    field = new Field(count_of_rows, count_of_columns, 0, 0, view->width(), view->height(), true, 0);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene->addItem(field);
@@ -32,5 +33,7 @@ void CreateStateField::create_interface()
 
 void CreateStateField::on_create_but_clicked()
 {
+    emit close_creator_state(field->state);
+    close();
 }
 
