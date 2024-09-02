@@ -14,20 +14,25 @@
 
 void Field::fix_field_size()
 {
-    cells_field_begin_y = width >= height ? 0 : (height - cell_width * count_of_rows) / 2;
-    cells_field_begin_x = width >= height ? (width - cell_width * count_of_columns) / 2 : 0;
+    if (get_count_of_rows() * width / get_count_of_columns() > height)
+    {
+        cells_field_begin_y = 0;
+        cells_field_begin_x = (width - cell_width * get_count_of_columns()) / 2;
+    } else {
+        cells_field_begin_x = 0;
+        cells_field_begin_y = (height - cell_width * get_count_of_rows()) / 2;
+    }
 }
 
 void Field::set_cell_views(State *state)
 {
     int curr_amount_of_cells = get_count_of_cells();
-    if (width < height) cell_width = width /count_of_columns;
-    else cell_width = height /count_of_rows;
+    set_cell_width();
     int cell_count = 0;
     cell_views = new CellView*[curr_amount_of_cells];
-    for (int i = 0; i < count_of_columns; i++)
+    for (int i = 0; i < get_count_of_columns(); i++)
     {
-        for (int j = 0; j < count_of_rows; j++)
+        for (int j = 0; j < get_count_of_rows(); j++)
         {
             cell_views[cell_count] = new CellView(&state->cells_array[i][j], 0, 0, cell_width, this); // leak
             cell_views[cell_count]->field = this;
@@ -35,6 +40,16 @@ void Field::set_cell_views(State *state)
         }
     }
 
+}
+
+void Field::set_cell_width()
+{
+    if (get_count_of_rows() * width / get_count_of_columns() > height)
+    {
+        cell_width = height / get_count_of_rows();
+    } else {
+        cell_width = width / get_count_of_columns();
+    }
 }
 
 Field::Field(int curr_amount_of_rows, int curr_amount_of_columns, qreal x, qreal y, qreal width, qreal height, bool is_start_state, int fps, QGraphicsRectItem *parent)
@@ -87,6 +102,18 @@ Field::Field(qreal x, qreal y, qreal width, qreal height, bool is_start_state, i
     }
 }
 
+Field::~Field()
+{
+
+    for (int i = 0; i < get_count_of_cells(); i++)
+    {
+        delete cell_views[i];
+    }
+    delete[] cell_views;
+
+    delete state;
+}
+
 void Field::set_random_cells_alive(double alive_precent)
 {
 
@@ -96,7 +123,7 @@ void Field::set_random_cells_alive(double alive_precent)
     {
         int is_alive_choose = std::rand() % 10;
         if (0 <= is_alive_choose && is_alive_choose <= alive_precent / 10 - 1)
-            cell_views[j]->cell->is_alive = true;
+            cell_views[j]->get_cell()->is_alive = true;
     }
 }
 
@@ -114,21 +141,25 @@ void Field::update()
     scene()->update();
 }
 
+CellView::~CellView()
+{
+}
+
 void CellView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
-    qreal curr_x = field->cells_field_begin_x + cell->x * width;
-    qreal curr_y = field->cells_field_begin_y + cell->y * width;
-    if (cell->is_alive)
+    qreal curr_x = field->get_cells_field_begin_x() + get_cell()->x * get_width();
+    qreal curr_y = field->get_cells_field_begin_y() + get_cell()->y * get_width();
+    if (get_cell()->is_alive)
     {
-        setRect(curr_x, curr_y, width, width);
-        setPen(cell_color);
+        setRect(curr_x, curr_y, get_width(), get_width());
+        setPen(field->cell_color);
 
-        setBrush(cell_color);
+        setBrush(field->cell_color);
         QGraphicsRectItem::paint(painter, option);
-    } else if (field->is_start_state && !cell->is_alive)
+    } else if (field->is_start_state_status() && !get_cell()->is_alive)
     {
-        setRect(curr_x, curr_y, width, width);
-        setPen(cell_color);
+        setRect(curr_x, curr_y, get_width(), get_width());
+        setPen(field->cell_color);
         setBrush(Qt::black);
         QGraphicsRectItem::paint(painter, option);
     }

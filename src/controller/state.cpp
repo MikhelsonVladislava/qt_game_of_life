@@ -5,7 +5,7 @@
 
 void State::update_state()
 {
-    State* last_state = copy(this);
+    State* last_state = copy();
 
     for (int i = 0; i < amount_of_columns; i++)
         for (int j = 0; j < amount_of_rows; j++)
@@ -53,14 +53,14 @@ void State::supp_state(int needed_count_of_rows, int needed_count_of_columns)
     amount_of_columns = needed_count_of_columns;
 }
 
-State::State(Cell **cells, int curr_amount_of_rows, int curr_amount_of_columns)
+State::State(Cell **cells, int amount_of_rows, int amount_of_columns)
 {
     cells_array = cells;
-    amount_of_rows = curr_amount_of_rows;
-    amount_of_columns = curr_amount_of_columns;
+    this->amount_of_rows = amount_of_rows;
+    this->amount_of_columns = amount_of_columns;
 }
 
-State* State::copy(State *copied_state)
+State* State::copy()
 {
     Cell** last_cells = new Cell*[amount_of_columns];
     for (int i = 0; i < amount_of_columns; i++)
@@ -68,7 +68,7 @@ State* State::copy(State *copied_state)
         last_cells[i] = new Cell[amount_of_rows];
         std::copy(cells_array[i], cells_array[i] + amount_of_rows, last_cells[i]);
     }
-    State* last_state = new State(last_cells, copied_state->amount_of_rows, copied_state->amount_of_columns);
+    State* last_state = new State(last_cells, this->amount_of_rows, this->amount_of_columns);
     return last_state;
 }
 

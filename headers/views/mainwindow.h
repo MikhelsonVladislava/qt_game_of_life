@@ -14,29 +14,24 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    bool state_is_create = false;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    State* state = nullptr;
 
     void start_game();
-    void exit();
-    void set_state();
 
 signals:
     void status_string(const QString &);
 
 private slots:
     void on_start_but_clicked();
-
     void on_exit_but_clicked();
-
     void on_state_but_clicked();
-
     void create_state(State* state);
 
 private:
     QPointer<StartStateWindowSettings> sub_window = nullptr;
+    bool state_is_create = false;
+    State* state = nullptr;
     const QString created = "задано";
     const QString not_created = "не задано";
     void create_interface();

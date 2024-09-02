@@ -16,13 +16,10 @@ public:
     }
     State(Cell **cells=nullptr, int curr_amount_of_rows=0, int curr_amount_of_columns=0);
 
-    State* copy(State* copied_state);
+    State* copy();
     ~State();
     void update_state();
     void supp_state(int needed_count_of_rows, int needed_count_of_columns);
-    class InvalidState {};
-    class CoordsDublicate {};
-    class NullCoordinates {};
 };
 
 #endif

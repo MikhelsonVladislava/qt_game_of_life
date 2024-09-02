@@ -24,8 +24,6 @@ public:
         this->count_of_columns = count_of_columns;
     };
     ~StartStateWindowSettings();
-    int count_of_rows;
-    int count_of_columns;
 
 private slots:
     void on_create_state_but_clicked();
@@ -37,13 +35,14 @@ signals:
     void create_state(State* state);
 
 private:
+    int count_of_rows;
+    int count_of_columns;
     QPointer<CreateStateField> sub_window = nullptr;
     void create_interface();
     Ui::StartStateWindowSettings *ui;
     State* get_full_state(State* state);
     const QString COLUMNS_WARNING = "Количество столбцов состояния не должно превосходить количества столбцов всего поля!";
     const QString ROWS_WARNING = "Количество строк состояния не должно превосходить количества строк всего поля!";
-    State* state;
 };
 
 #endif // STARTSTATEWINDOWSETTINGS_H

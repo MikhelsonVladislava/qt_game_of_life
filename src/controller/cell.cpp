@@ -7,14 +7,14 @@ Cell::Cell()
     y = -1;
 }
 
-Cell::Cell(int new_x, int new_y)
+Cell::Cell(int x, int y)
 {
-    x = new_x;
-    y = new_y;
+    this->x = x;
+    this->y = y;
 }
 
-void Cell::set_coordinates(int new_x, int new_y)
+void Cell::set_coordinates(int x, int y)
 {
-    x = new_x;
-    y = new_y;
+    this->x = x;
+    this->y = y;
 }

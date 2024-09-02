@@ -9,7 +9,7 @@ public:
     int y;
     bool is_alive = false;
     Cell();
-    Cell(int new_x, int new_y);
+    Cell(int x, int y);
 
     void set_coordinates(int x, int y);
 };

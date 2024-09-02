@@ -14,9 +14,6 @@ class CreateStateField : public QWidget
     Q_OBJECT
 
 public:
-    Field* field;
-    int count_of_columns;
-    int count_of_rows;
     explicit CreateStateField(QWidget *parent = nullptr);
     CreateStateField(int count_of_rows, int count_of_columns, QWidget *parent = nullptr)
         : CreateStateField(parent)
@@ -34,6 +31,9 @@ private slots:
     void on_create_but_clicked();
 
 private:
+    int count_of_rows;
+    int count_of_columns;
+    Field* field;
     void create_interface();
     Ui::CreateStateField *ui;
 };

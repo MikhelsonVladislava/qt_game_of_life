@@ -13,6 +13,7 @@ CreateStateField::CreateStateField(QWidget *parent) :
 
 CreateStateField::~CreateStateField()
 {
+    delete field;
     delete ui;
 }
 
@@ -33,7 +34,8 @@ void CreateStateField::create_interface()
 
 void CreateStateField::on_create_but_clicked()
 {
-    emit close_creator_state(field->state);
+    State* state_copy = field->get_state()->copy();
+    emit close_creator_state(state_copy);
     close();
 }
 
