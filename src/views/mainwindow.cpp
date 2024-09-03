@@ -1,4 +1,5 @@
 #include <QStringList>
+#include "../../headers/views/mainfieldwindow.h"
 #include "../../headers/views/field.h"
 #include "../../headers/views/startstatewindowsettings.h"
 #include "../../headers/views/mainwindow.h"
@@ -21,32 +22,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::start_game()
 {
-    QGraphicsScene* scene = new QGraphicsScene();
-    QGraphicsView* view = new QGraphicsView(scene);
-    QComboBox* rows_box = findChild<QComboBox*>("rows_box");
-    QComboBox* columns_box = findChild<QComboBox*>("columns_box");
-    QComboBox* fps_box = findChild<QComboBox*>("fps_box");
-    QComboBox* random_cells_percent_box = findChild<QComboBox*>("random_cells_percent");
-
-    view->setFixedSize(1000,700);
-    scene->setSceneRect(0,0,1000,700);
-    int alive_precent = random_cells_percent_box->currentText().toInt();
-    int count_rows = rows_box->currentText().toInt();
-    int count_columns = columns_box->currentText().toInt();
-    int fps = 1000 / fps_box->currentText().toInt();
-    Field* field;
-    if (state_is_create)
-        field = new Field(0, 0, view->width(), view->height(), false, fps, state);
-    else
-    {
-        field = new Field(count_rows, count_columns, 0, 0, view->width(), view->height(), false, fps);
-        field->set_random_cells_alive(alive_precent);
-    }
-    scene->addItem(field);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    view->show();
+    MainFieldWindow* main_field_window = new MainFieldWindow(this, nullptr);
+    main_field_window->show();
 }
 
 

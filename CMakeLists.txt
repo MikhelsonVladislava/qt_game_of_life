@@ -34,6 +34,10 @@ set(PROJECT_SOURCES
         headers/views/startstatewindowsettings.h
         ui_startstatewindowsettings.h
         src/views/startstatewindowsettings.cpp
+        src/views/mainfieldwindow.cpp
+        headers/views/mainfieldwindow.h
+        ui_mainfieldwindow.h
+        mainfieldwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

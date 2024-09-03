@@ -16,6 +16,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    State* get_state() {return state;};
+    bool get_state_is_create() {return state_is_create;};
 
     void start_game();
 
