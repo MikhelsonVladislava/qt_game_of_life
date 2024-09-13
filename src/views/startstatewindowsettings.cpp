@@ -10,6 +10,7 @@ StartStateWindowSettings::StartStateWindowSettings(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StartStateWindowSettings)
 {
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
     create_interface();
@@ -25,8 +26,8 @@ void StartStateWindowSettings::create_interface()
     QLineEdit* rows = findChild<QLineEdit*>("rows_field");
     QLineEdit* columns = findChild<QLineEdit*>("columns_field");
     QLabel* warning = findChild<QLabel*>("warning_label");
-    QObject::connect(this, &StartStateWindowSettings::rows_warning, warning, &QLabel::setText);
-    QObject::connect(this, &StartStateWindowSettings::columns_warning, warning, &QLabel::setText);
+    warning->setStyleSheet(warning_stylesheet);
+    QObject::connect(this, &StartStateWindowSettings::show_warning, warning, &QLabel::setText);
 
     rows->setInputMask("999");
     columns->setInputMask("999");
@@ -45,8 +46,11 @@ void StartStateWindowSettings::on_create_state_but_clicked()
 
     int rows_count_input = rows->displayText().toInt();
     int columns_count_input = columns->displayText().toInt();
-    if (rows_count_input > count_of_rows) emit rows_warning(ROWS_WARNING);
-    else if (columns_count_input > count_of_columns) emit columns_warning(COLUMNS_WARNING);
+    if (rows->displayText().isEmpty() || columns->displayText().isEmpty()) emit show_warning(COUNT_WARNING);
+    else if (rows_count_input > count_of_rows) emit show_warning(ROWS_WARNING);
+    else if (columns_count_input > count_of_columns) emit show_warning(COLUMNS_WARNING);
+    else if (columns_count_input > 100 || rows_count_input > 100) emit show_warning(H_WARNING);
+    else if (columns_count_input == 0 || rows_count_input == 0) emit show_warning(COUNT_WARNING);
     else {
         if (sub_window == nullptr)
         {

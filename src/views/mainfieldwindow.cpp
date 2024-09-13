@@ -6,6 +6,7 @@ MainFieldWindow::MainFieldWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainFieldWindow)
 {
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
 }
@@ -14,7 +15,7 @@ MainFieldWindow::MainFieldWindow(MainWindow *main_window, QWidget *parent) : Mai
 {
     setFixedSize(1000,700);
     this->main_window = main_window;
-    QGraphicsScene* scene = new QGraphicsScene();
+    QGraphicsScene* scene = new QGraphicsScene(this);
     QGraphicsView* view = new QGraphicsView(scene, this);
     QComboBox* rows_box = main_window->findChild<QComboBox*>("rows_box");
     QComboBox* columns_box = main_window->findChild<QComboBox*>("columns_box");
@@ -35,6 +36,7 @@ MainFieldWindow::MainFieldWindow(MainWindow *main_window, QWidget *parent) : Mai
         field = new Field(count_rows, count_columns, 0, 0, view->width(), view->height(), false, fps);
         field->set_random_cells_alive(alive_precent);
     }
+    field->cell_color = main_window->get_color_cell();
     scene->addItem(field);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

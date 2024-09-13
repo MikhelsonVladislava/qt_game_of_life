@@ -17,6 +17,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     State* get_state() {return state;};
+    QColor get_color_cell() {return color_cell;};
     bool get_state_is_create() {return state_is_create;};
 
     void start_game();
@@ -26,11 +27,14 @@ signals:
 
 private slots:
     void on_start_but_clicked();
-    void on_exit_but_clicked();
     void on_state_but_clicked();
     void create_state(State* state);
+    void on_del_state_clicked();
+    void on_set_color_clicked();
+    void set_color(const QColor &color);
 
 private:
+    QColor color_cell = Qt::white;
     QPointer<StartStateWindowSettings> sub_window = nullptr;
     bool state_is_create = false;
     State* state = nullptr;

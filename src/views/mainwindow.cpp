@@ -6,11 +6,13 @@
 #include "../../ui_mainwindow.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     ui->setupUi(this);
     create_interface();
 }
@@ -54,13 +56,8 @@ void MainWindow::create_state(State* state)
 {
     state_is_create = true;
     emit status_string(created);
+    if (this->state != nullptr) delete this->state;
     this->state = state;
-}
-
-
-void MainWindow::on_exit_but_clicked()
-{
-
 }
 
 void MainWindow::create_interface()
@@ -80,5 +77,27 @@ void MainWindow::create_interface()
     QStringList random_cells_percent_box_variants = (QStringList() << "10" << "30"  << "50" << "70" << "90");
     QComboBox* random_cells_percent_box = findChild<QComboBox*>("random_cells_percent");
     random_cells_percent_box->addItems(random_cells_percent_box_variants);
+}
+
+
+void MainWindow::on_del_state_clicked()
+{
+    if (this->state != nullptr) delete this->state;
+    state_is_create = false;
+    this->state = nullptr;
+    emit status_string(not_created);
+}
+
+
+void MainWindow::on_set_color_clicked()
+{
+    QColorDialog* color_window = new QColorDialog();
+    QObject::connect(color_window, &QColorDialog::colorSelected, this, &MainWindow::set_color);
+    color_window->show();
+}
+
+void MainWindow::set_color(const QColor &color)
+{
+    this->color_cell = color;
 }
 

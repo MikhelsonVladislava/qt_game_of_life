@@ -30,8 +30,7 @@ private slots:
     void close_creator_state(State* state);
 
 signals:
-    void rows_warning(const QString &);
-    void columns_warning(const QString &);
+    void show_warning(const QString &);
     void create_state(State* state);
 
 private:
@@ -42,7 +41,10 @@ private:
     Ui::StartStateWindowSettings *ui;
     State* get_full_state(State* state);
     const QString COLUMNS_WARNING = "Количество столбцов состояния не должно превосходить количества столбцов всего поля!";
+    const QString COUNT_WARNING = "Задайте количество столбцов и строк состояния!";
     const QString ROWS_WARNING = "Количество строк состояния не должно превосходить количества строк всего поля!";
+    const QString H_WARNING = "Количество строк и столбцов состояния не должно превосходить 100!";
+    const QString warning_stylesheet = "QLabel { color : red; }";
 };
 
 #endif // STARTSTATEWINDOWSETTINGS_H

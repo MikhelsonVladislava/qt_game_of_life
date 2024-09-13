@@ -96,7 +96,7 @@ Field::Field(qreal x, qreal y, qreal width, qreal height, bool is_start_state, i
 
     if (!is_static)
     {
-        QTimer* timer = new QTimer;
+        timer = new QTimer;
         QObject::connect(timer,SIGNAL(timeout()),this,SLOT(update()));
         timer->start(fps);
     }
@@ -111,6 +111,7 @@ Field::~Field()
     }
     delete[] cell_views;
 
+    if (timer != nullptr) delete timer;
     delete state;
 }
 

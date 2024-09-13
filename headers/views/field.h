@@ -69,6 +69,7 @@ private:
     int count_of_rows;
     int count_of_columns;
     State* state;
+    QTimer* timer = nullptr;
 
     void fix_field_size();
     void set_cell_views(State* state);

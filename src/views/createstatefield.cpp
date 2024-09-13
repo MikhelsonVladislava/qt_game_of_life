@@ -7,6 +7,7 @@ CreateStateField::CreateStateField(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CreateStateField)
 {
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
 }
@@ -19,9 +20,8 @@ CreateStateField::~CreateStateField()
 
 void CreateStateField::create_interface()
 {
-    QGraphicsScene* scene = new QGraphicsScene();
-    CustomView* view = new CustomView(this);
-    view->setScene(scene);
+    QGraphicsScene* scene = new QGraphicsScene(this);
+    CustomView* view = new CustomView(scene, this);
 
     scene->setSceneRect(0,0,this->width(), this->height() * 0.9);
     view->setFixedSize(this->width(), this->height() * 0.9);
