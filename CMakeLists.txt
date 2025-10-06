@@ -24,19 +24,15 @@ set(PROJECT_SOURCES
         src/views/field.cpp
         headers/views/field.h
         src/views/mainwindow.cpp
-        ui_mainwindow.h
         headers/views/mainwindow.h
         headers/views/createstatefield.h
         src/views/createstatefield.cpp
         createstatefield.ui
-        ui_createstatefield.h
         mainwindow.ui
         headers/views/startstatewindowsettings.h
-        ui_startstatewindowsettings.h
         src/views/startstatewindowsettings.cpp
         src/views/mainfieldwindow.cpp
         headers/views/mainfieldwindow.h
-        ui_mainfieldwindow.h
         mainfieldwindow.ui
 )
 
