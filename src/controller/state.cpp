@@ -1,6 +1,5 @@
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
-#include <QDebug>
 #include "../../headers/controller/game.h"
 
 void State::update_state()

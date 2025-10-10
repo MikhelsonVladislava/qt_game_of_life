@@ -1,5 +1,3 @@
- #include <QDebug>
-
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"
 #include "../../headers/controller/game.h"

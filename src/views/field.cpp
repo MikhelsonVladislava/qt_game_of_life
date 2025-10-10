@@ -7,7 +7,6 @@
 #include <QColor>
 #include <ctime>
 #include <QGraphicsScene>
-#include <QDebug>
 #include "../../headers/views/field.h"
 #include "../../headers/controller/state.h"
 #include "../../headers/controller/cell.h"

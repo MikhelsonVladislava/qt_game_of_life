@@ -4,7 +4,6 @@
 #include <QGraphicsItemGroup>
 #include <QGraphicsView>
 #include <QObject>
-#include <QDebug>
 #include <QPainter>
 #include "../controller/cell.h"
 #include "../controller/state.h"
