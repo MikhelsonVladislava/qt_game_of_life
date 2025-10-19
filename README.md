@@ -13,7 +13,7 @@
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/Vortex0034/qt_game_of_life.git
+git clone https://github.com/MikhelsonVladislava/qt_game_of_life.git
 cd qt_game_of_life
 
 # Создание директории для сборки
@@ -26,3 +26,6 @@ cmake ..
 # Сборка Release-версии
 cmake --build . --config Release
 ```
+### Планируется сделать:
+- Добавить многопоточность для ускорения приложения (отрисовка в отдельном от вычислений потоке);
+- Кастомизировать стартовое окно и окно создания начального состояния.
